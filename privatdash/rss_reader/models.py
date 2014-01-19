@@ -21,6 +21,21 @@ class RSSSource(models.Model):
         verbose_name_plural = _('RSS Sources')
 
 
+class RSSEntry(models.Model):
+    title = models.CharField(verbose_name=_('Title'), blank=True, max_length=300)
+    description = models.TextField(verbose_name=_('Description'), max_length=1000)
+    text = models.TextField(verbose_name=_('Text'), max_length=1000)
+    link = models.URLField(verbose_name=_('Link to Entry'))
+    is_new = models.BooleanField(verbose_name=_('Is new?'), default=True)
+    rss_source = models.ForeignKey(RSSSource)
+    publishing_date = models.DateField(verbose_name=_('Publishing Date'))
+
+    class Meta:
+        verbose_name = _('RSS Entry')
+        verbose_name_plural = _('RSS Entry')
+        ordering = ['-publishing_date', 'title']
+
+
 class RSSWidget(models.Model):
     ALL_SOURCES_RSS_WIDGET = 0
     SINGLE_SOURCE_RSS_WIDGET = 1
