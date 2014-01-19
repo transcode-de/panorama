@@ -1,7 +1,8 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, CreateView
 
 from privatdash.views import ActiveNavMixin
 
+from .forms import RSSSourceCreateForm
 from .models import RSSSource
 
 
@@ -18,4 +19,9 @@ class RSSSourceListView(RSSReaderBaseView, ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(RSSSourceListView, self).get_queryset(*args, **kwargs)
-        return qs.filter(user=self.request.user)
+        return qs.filter(user=self.request.user.pk)
+
+
+class RSSSourceAddView(RSSReaderBaseView, CreateView):
+    model = RSSSource
+    form_class = RSSSourceCreateForm
