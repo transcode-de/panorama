@@ -1,0 +1,342 @@
+body {
+    margin-top: 65px;
+    margin-left: 58px;
+    margin-right: 15px;
+}
+
+.navbar {
+    border-bottom: none;
+}
+
+.navbar-brand {
+    font-size: 180%;
+    font-weight: bold;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    width: 200px;
+    height: 52px;
+}
+
+.main-brand {
+    position: absolute;
+    left: 8px;
+    top: 14px;
+}
+
+.sub-brand {
+    position: absolute;
+    top: 20px;
+    left: 95px;
+    z-index: -1;
+    color: #111;
+    font-size: 90%;
+    -moz-text-shadow: 2px 2px 1px #333;
+    -webkit-text-shadow: 2px 2px 1px #333;
+    text-shadow: 2px 2px 1px #333;
+}
+
+.navbar-toggle {
+    margin-top: 17px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-right: 15px;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-toggle:hover, .navbar-toggle:focus {
+    background: transparent!important;
+}
+
+.app-title {
+    visibility: hidden;
+    transition: visibility;
+    transition-delay: 0s;
+    -webkit-transition: visibility;
+    -webkit-transition-delay: 0s;
+}
+
+
+.sidenav {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 42px;
+    height: 100%;
+    transition: width 0.2s;
+    -webkit-transition: width 0.2s;
+    -moz-transition: width 0.2s;
+    -o-transition: width 0.2s;
+    z-index: 999;
+}
+
+.sidenav:hover {
+    width: 200px;
+}
+
+.sidenav:hover .app-title {
+    font-size: 80%;
+    visibility: visible;
+    transition: visibility;
+    transition-delay: 0.2s;
+    -webkit-transition: visibility;
+    -webkit-transition-delay: 0.2s;
+}
+
+.sidenav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 1em;
+}
+
+.sidenav li {
+    height: 35px;
+    width: 100%;
+    font-size: 150%;
+    line-height: 1.4;
+}
+
+.sidenav i {
+    height: 30px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 4px;
+    padding: 2px 6px 2px 6px;
+}
+
+.sidenav:hover i.active:after {
+    content: ' ';
+    height: 0;
+    position: absolute;
+    width: 0;
+    margin-top: 5px;
+    margin-left: 4px;
+    border: 8px solid transparent;
+}
+
+.widget {
+    margin-bottom: 1em;
+}
+
+h1 {
+    border-bottom: 1px solid #AAA;
+    margin: 0 0 20px 0;
+    padding-bottom: 9px;
+    font-weight: bold;
+    -moz-text-shadow: 2px 2px 1px #AAA;
+    -webkit-text-shadow: 2px 2px 1px #AAA;
+    text-shadow: 2px 2px 1px #AAA;
+}
+
+.widget-header {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    font-size: 135%;
+    font-weight: bold;
+    border-style: solid;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    cursor: move;
+}
+
+.widget-header .btn {
+    -moz-text-shadow: none;
+    -webkit-text-shadow: none;
+    text-shadow: none;
+}
+
+.collapsebutton {
+    margin-top: 3px;
+}
+
+.widget-content {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top: none;
+}
+
+.widget-content h2, .widget-content hr {
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.widget-content h3 {
+    margin-top: 0.5em;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.widget-content h3 a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+.column {
+    min-height: 200px;
+}
+
+.ui-sortable-placeholder {
+    border: 2px dashed #555555;
+    visibility: visible !important;
+    height: 50px !important;
+}
+
+.switch-day {
+    background: rgb(226,226,226)!important; /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%)!important; /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1)))!important; /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%)!important; /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%)!important; /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%)!important; /* IE10+ */
+    background: linear-gradient(to bottom, rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%)!important; /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 )!important; /* IE6-9 */
+    font-weight: bold;
+}
+
+.switch-night {
+    background: url('../img/stressed_linen.png')!important;
+    font-weight: bold;
+}
+
+/*
+ * Weather
+ */
+
+.weather-icon-box {
+    width: 110px;
+    height: 110px;
+    float: right;
+    margin: 0.9em;
+}
+
+.weather-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.weather-info-box span {
+    font-size: 120%;
+}
+
+.icon-conrtibution {
+    font-size: 80%;
+    font-style: italic;
+    color: #BBBBBB;
+    text-align: right;
+    margin-top: -0.7em;
+}
+
+.icon-conrtibution a {
+    color: #BBBBBB;
+    font-weight: bold;
+    font-size: 105%;
+}
+
+/*
+ * Calendar
+ */
+
+.ui-widget {
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.ui-widget-header {
+    border-radius: 8px;
+
+    font-weight: bold;
+    border-style: solid;
+}
+
+.ui-datepicker-title {
+    text-align: center;
+    margin: 4px;
+}
+
+.ui-datepicker-next, .ui-datepicker-prev {
+    border-right-width: 1px;
+    border-left-width: 0;
+    border-bottom-width: 1px;
+    border-top-width: 0;
+    border-style: solid;
+    margin: 3px;
+	width: 1.6em!important;
+	height: 1.6em!important;
+}
+
+.ui-datepicker-prev {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+    float: left;
+    background-image: url('../img/glyphicons_chevron_left.png');
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size: 40%;
+}
+
+.ui-datepicker-next {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+    float: right;
+    background-image: url('../img/glyphicons_chevron_right.png');
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size: 40%;
+}
+
+.ui-datepicker-next span, .ui-datepicker-prev span {
+    display: none;
+
+}
+
+.ui-datepicker-calendar {
+    width: 100%;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.ui-datepicker-calendar thead tr th{
+    text-align: right;
+    padding-right: 7px;
+}
+
+.ui-datepicker-calendar td * {
+    margin-top: 2px;
+    font-weight: bold;
+    width: 95%;
+    display: inline-block;
+    padding-right: 7px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-radius: 3px;
+}
+
+.ui-datepicker-week-col {
+    width: 6%;
+    border: none;
+}
+
+.ui-datepicker-other-month {
+    border: none!important;
+    background-color: none;
+}
+

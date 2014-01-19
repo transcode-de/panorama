@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div>
+	<div class="btn-group pull-right">
+  		<button type="button" class="btn btn-default btn-sm dashboard-tooltip" title="{% trans 'edit existing widgets' %}">
+  			<i class="fa fa-cogs"></i>
+  		</button>
+  		<button type="button" class="btn btn-default btn-sm dashboard-tooltip" title="{% trans 'add new widget' %}">
+  			<i class="fa fa-plus"></i>
+  		</button>
+	</div>
+
+	<h1>Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4 column" id="col1">
+    </div>
+    <div class="col-md-4 column" id="col2">
+    </div>
+    <div class="col-md-4 column" id="col3">
+    </div>
+</div>
+{% endblock content %}

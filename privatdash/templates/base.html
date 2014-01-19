@@ -1,0 +1,86 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+    <head>
+        <title>{% block title %}privatdash{% endblock %}</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block static %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"></link>
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"></link>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}"></link>
+        <link rel="stylesheet" href="{% static 'css/by-night.css' %}"></link>
+        {% endblock %}
+
+        {% block scripts %}
+        <script type="text/javascript" src="{% static 'js/vendor/jquery-2.0.3.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/vendor/jquery.nicescroll.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/vendor/jquery-ui.custom.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+        {% endblock %}
+
+    </head>
+    <body>
+
+        <!-- top-navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top background-img" role="navigation">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <span class="main-brand">panorama</span>
+                    <span class="sub-brand">by night</span>
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-lock"></i> Change Password</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#" id="restore-widget-order">
+                                    <i class="fa fa-random"></i> Restore Widget Order
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-lock"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /top-navigation -->
+
+        <!-- side-navigation -->
+        {% block navigation %}
+        <nav class="sidenav background-img">
+            <ul>
+                <li>
+                    <i class="fa fa-dashboard {% if sidenav_active == 'dashboard' %}active{% endif %}"></i>
+                    <a href="{% url 'dashboard' %}" class="app-title">{% trans 'Dashboard' %}</a>
+                </li>
+                {% for sidenav_element in sidenav_elements %}
+                    {% include sidenav_element %}
+                {% endfor %}
+            </ul>
+        </nav>
+        {% endblock %}
+        <!-- /side-navigation -->
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
