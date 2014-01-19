@@ -1,3 +1,5 @@
+from braces.views import LoginRequiredMixin
+
 from django.views.generic import TemplateView
 
 
@@ -10,5 +12,5 @@ class ActiveNavMixin(object):
         return context
 
 
-class Dashboard(ActiveNavMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, ActiveNavMixin, TemplateView):
 	template_name = 'privatdash/dashboard.html'

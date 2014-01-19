@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}{{ block.super }} - {% trans 'Logout' %}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 col-md-offset-3  well">
+    <h1>{% trans 'Successfully logged out.' %}</h1>
+    <p>
+        {% trans 'You logged out successfully. If you want to login again, please click here:' %}
+        <a href="{% url 'auth_login' %}">{% trans 'Login' %}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
