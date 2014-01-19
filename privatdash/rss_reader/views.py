@@ -1,3 +1,5 @@
+from braces.views import LoginRequiredMixin
+
 from django.views.generic import TemplateView, ListView, CreateView
 
 from privatdash.views import ActiveNavMixin
@@ -6,7 +8,7 @@ from .forms import RSSSourceCreateForm
 from .models import RSSSource
 
 
-class RSSReaderBaseView(ActiveNavMixin):
+class RSSReaderBaseView(LoginRequiredMixin, ActiveNavMixin):
     sidenav_active = 'rss_reader'
 
 
@@ -25,3 +27,8 @@ class RSSSourceListView(RSSReaderBaseView, ListView):
 class RSSSourceAddView(RSSReaderBaseView, CreateView):
     model = RSSSource
     form_class = RSSSourceCreateForm
+
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super(RSSSourceAddView, self).get_form_kwargs(*args, **kwargs)
+        form_kwargs['user'] = self.request.user
+        return form_kwargs
