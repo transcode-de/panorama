@@ -27,6 +27,7 @@ class RSSSourceListView(RSSReaderBaseView, ListView):
 class RSSSourceAddView(RSSReaderBaseView, CreateView):
     model = RSSSource
     form_class = RSSSourceCreateForm
+    success_url = 'rss_reader_rsssource_list_view'
 
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super(RSSSourceAddView, self).get_form_kwargs(*args, **kwargs)
