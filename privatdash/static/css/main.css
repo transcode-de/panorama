@@ -344,3 +344,14 @@ body {
     background-color: none;
 }
 
+.top-space {
+    margin-top: 1em;
+}
+
+.no-underline {
+    border-bottom: 0px;
+}
+
+.text-pull-right {
+    text-align: right;
+}

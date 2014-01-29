@@ -1,0 +1,18 @@
+{% load i18n %}
+<div>
+  <div class="col-md-12">
+    <div class="btn-group pull-right">
+      <a class="btn btn-default btn-sm dashboard-tooltip {% if view_active %}active{% endif %}"
+         title="{% trans 'Show RSS Reader' %}"
+         href="{% url 'rss_reader_view' %}">
+        <i class="fa fa-bars"></i> {% trans 'View' %}
+      </a>
+      <a class="btn btn-default btn-sm dashboard-tooltip {% if edit_active %}active{% endif %}"
+         title="{% trans 'Edit RSS Reader' %}"
+         href="{% url 'rss_reader_rsssource_list_view' %}">
+        <i class="fa fa-edit"></i> {% trans 'Edit' %}
+      </a>
+    </div>
+  </div>
+  <h1>{% trans 'RSS Reader' %}</h1>
+</div>

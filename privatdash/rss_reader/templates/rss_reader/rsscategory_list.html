@@ -8,8 +8,8 @@
 <div class="row">
   <div class="col-md-8">
     <div class="btn-group top-space">
-      <a class="btn btn-success" href="{% url 'rss_reader_rsssource_create_view' %}">
-        <i class="fa fa-plus"></i> {% trans 'Add new RSS Source' %}
+      <a class="btn btn-success" href="{% url 'rss_reader_rsscategory_create_view' %}">
+        <i class="fa fa-plus"></i> {% trans 'Add new Category' %}
       </a>
     </div>
   </div>
@@ -22,31 +22,21 @@
         <thead>
           <tr>
             <th>{% trans 'Titel' %}</th>
-            <th>{% trans 'Categories' %}</th>
-            <th>{% trans 'Entries' %}</th>
-            <th>{% trans 'new Entries' %}</th>
-            <th>{% trans 'Actions' %}</th>
+            <th class='text-pull-right'>{% trans 'Actions' %}</th>
           </tr>
         </thead>
         <tbody>
           {% for object in object_list %}
           <tr>
             <td>{{ object }}</td>
-            <td>
-              {% for cat in object.categories.all %}
-                <span class="label label-primary">{{ cat }}</span>
-              {% endfor %}
-            </td>
-            <td>{{ object.entries_count }}</td>
-            <td>{{ object.unread_entries_count }}</td>
-            <td>
+            <td class='text-pull-right'>
               <div class="btn-group">
                 <a class="btn btn-default btn-sm"
-                   href="{% url 'rss_reader_rsssource_update_view' pk=object.pk %}">
+                   href="{% url 'rss_reader_rsscategory_update_view' pk=object.pk %}">
                   <i class="fa fa-edit"></i> {% trans 'Edit' %}
                 </a>
                 <a class="btn btn-default btn-sm"
-                   href="{% url 'rss_reader_rsssource_delete_view' pk=object.pk %}">
+                   href="{% url 'rss_reader_rsscategory_delete_view' pk=object.pk %}">
                   <i class="fa fa-times"></i> {% trans 'Delete' %}
                 </a>
               </div>
