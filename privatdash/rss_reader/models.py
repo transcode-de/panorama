@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import now
 
 from time import mktime
 
@@ -13,6 +14,11 @@ class RSSCategory(models.Model):
     title = models.CharField(verbose_name='Title', max_length=300)
     user = models.ForeignKey(get_user_model())
 
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('categories')
+        ordering = ['title']
+
     def __unicode__(self):
         return self.title
 
@@ -20,7 +26,6 @@ class RSSCategory(models.Model):
 class RSSSource(models.Model):
     title = models.CharField(verbose_name=_('Title'), blank=True, max_length=300,
         help_text=_('If no title is specified, the title of the rss feed will be used.'))
-    description = models.TextField(verbose_name=_('Description'), max_length=1000, blank=True)
     categories = models.ManyToManyField(RSSCategory, blank=True)
     source = models.URLField(verbose_name=_('Source Url'),
         help_text=_('Source URL of the RSS Feed'))
@@ -30,6 +35,7 @@ class RSSSource(models.Model):
     class Meta:
         verbose_name = _('RSS Source')
         verbose_name_plural = _('RSS Sources')
+        ordering = ['updated', 'title']
 
     def __unicode__(self):
         if self.title:
@@ -44,6 +50,7 @@ class RSSSource(models.Model):
         return self.entries.filter(is_new=True).count()
 
     def save(self, *args, **kwargs):
+        self.updated = now()
         super(RSSSource, self).save(*args, **kwargs)
         self.update_feed_entries()
 
@@ -52,9 +59,12 @@ class RSSSource(models.Model):
         if feed.bozo == 0:
             for entry in feed.entries:
                 if not self.entries.filter(guid=entry.id).count():
-                    self.entries.create(title=entry.title, description=entry.summary,
+                    kwargs = dict(title=entry.title, description=entry.summary,
                         link=entry.link, is_new=True, guid=entry.id,
                         publishing_date=datetime.fromtimestamp(mktime(entry.published_parsed)))
+                    if 'author' in entry.keys():
+                        kwargs['author'] = entry.get('author')
+                    self.entries.create(**kwargs)
 
 
 class RSSEntry(models.Model):
@@ -65,6 +75,7 @@ class RSSEntry(models.Model):
     rss_source = models.ForeignKey(RSSSource, related_name='entries')
     publishing_date = models.DateTimeField(verbose_name=_('Publishing Date'))
     guid = models.CharField(verbose_name=_('Unique Feed ID'), max_length=1000)
+    author = models.CharField(verbose_name=_('Author'), max_length=300, blank=True)
 
 
     class Meta:

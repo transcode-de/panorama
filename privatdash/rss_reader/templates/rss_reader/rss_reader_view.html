@@ -1,20 +1,104 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static from staticfiles %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'js/rss_reader.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 
 {% include 'rss_reader/rss_reader_edit_nav.html' %}
 
 <div class="row">
-  <div class="col-md-8">
-  {% for object in object_list %}
-    {{ object }}
-  {% endfor %}
+  <div class="col-md-12">
+    <nav class="rss_nav navbar navbar-default" role="navigation">
+      <ul class="nav navbar-nav">
+        <li class="{% if all_active %}active{% endif %}">
+          <a href="{% url 'rss_reader_view' %}">{% trans 'All Entries' %}</a>
+        </li>
+        <li class="dropdown {% if source_active %}active{% endif %}">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            {% trans 'Sources' %} <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            {% for source in sources %}
+              <li>
+                <a href="{% url 'rss_reader_view' %}?source={{ source.pk }}">{{ source }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li class="dropdown {% if category_active %}active{% endif %}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {% trans 'Categories' %} <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            {% for cat in categories %}
+              <li>
+                <a href="{% url 'rss_reader_view' %}?category={{ cat.pk }}">{{ cat }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </div>
-  <div class="col-md-4">
-    {% for category in categories %}
-      {{ category }}
-    {% endfor %}
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>{{ heading }}</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel-group" id="accordion">
+      {% for entry in object_list %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#entry-{{ entry.pk }}">
+              {% if entry.is_new %}<span class="label label-success removing-id-{{ entry.pk }}">{% trans 'New' %}</span>{% endif %} {{ entry.title }}
+            </a>
+          </h4>
+        </div>
+        <div id="entry-{{ entry.pk }}" class="panel-collapse collapse  {% if forloop.first %}in{% endif %}">
+          <div class="panel-body">
+            <div class="bottom-space">
+              {% if entry.author %}{% trans 'Author' %}: {{ entry.author }}{% endif %}
+
+              <div class="btn-group pull-right">
+                {% if entry.is_new %}
+                <a class="btn btn-default btn-xs mark-read-link removing-id-{{ entry.pk }}"
+                   data-url="{% url 'rss_entry_mark_read' pk=entry.pk %}"
+                   data-target=".removing-id-{{ entry.pk }}">
+                  {% trans 'Mark as read' %}
+                </a>
+                <a class="btn btn-default btn-xs mark-read-link" target="_blank"
+                   data-url="{% url 'rss_entry_mark_read' pk=entry.pk %}"
+                   data-target=".removing-id-{{ entry.pk }}"
+                   href="{{ entry.link }}">
+                   {% trans 'Fulltext' %}
+                </a>
+                {% else %}
+                <a class="btn btn-default btn-xs" href="{{ entry.link }}" target="_blank">
+                  {% trans 'Fulltext' %}
+                </a>
+                {% endif %}
+              </div>
+            </div>
+            {{ entry.description|safe }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
   </div>
 </div>
 {% endblock content %}

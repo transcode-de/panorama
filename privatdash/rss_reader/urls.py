@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 from .views import (RSSReaderView, RSSSourceListView, RSSSourceCreateView, RSSSourceUpdateView,
     RSSSourceDeleteView, RSSCategoryListView, RSSCategoryCreateView, RSSCategoryUpdateView,
-    RSSCategoryDeleteView)
+    RSSCategoryDeleteView, RSSEntryMarkReadView)
 
 
 urlpatterns = patterns('',
@@ -13,6 +13,9 @@ urlpatterns = patterns('',
         name='rss_reader_rsssource_update_view'),
     url(r'^rss_source/delete/(?P<pk>\d+)$', RSSSourceDeleteView.as_view(),
         name='rss_reader_rsssource_delete_view'),
+
+    url(r'rss_entry/mark_read/(?P<pk>\d+)$', RSSEntryMarkReadView.as_view(),
+        name='rss_entry_mark_read'),
 
     url(r'^rss_category/list/$', RSSCategoryListView.as_view(), name='rss_reader_rsscategory_list_view'),
     url(r'^rss_category/add/$', RSSCategoryCreateView.as_view(), name='rss_reader_rsscategory_create_view'),

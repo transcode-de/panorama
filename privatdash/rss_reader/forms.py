@@ -21,20 +21,19 @@ class RSSSourceForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Field('title', wrapper_class='col-md-5 col-md-offset-1'),
-                Field('source', wrapper_class='col-md-5'),
+                Field('title', wrapper_class='col-md-4 col-md-offset-2'),
+                Field('source', wrapper_class='col-md-4'),
             ),
             Row(
-                Field('description', wrapper_class='col-md-5 col-md-offset-1'),
-                Field('categories', wrapper_class='col-md-5'),
+                Field('categories', wrapper_class='col-md-8 col-md-offset-2'),
                 Field('user')
             ),
             Row(
-            	Div(
-	           		Submit('save', _('Save')),
-               		Cancel(reverse('rss_reader_rsssource_list_view')),
-               	    css_class='col-md-10, col-md-offset-1',
-               	)
+                Div(
+                    Submit('save', _('Save')),
+                    Cancel(reverse('rss_reader_rsssource_list_view')),
+                    css_class='col-md-8, col-md-offset-2',
+                )
             )
         )
 

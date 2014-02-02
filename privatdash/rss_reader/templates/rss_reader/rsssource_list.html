@@ -25,6 +25,7 @@
             <th>{% trans 'Categories' %}</th>
             <th>{% trans 'Entries' %}</th>
             <th>{% trans 'new Entries' %}</th>
+            <th>{% trans 'Last updated'%}</th>
             <th>{% trans 'Actions' %}</th>
           </tr>
         </thead>
@@ -39,6 +40,7 @@
             </td>
             <td>{{ object.entries_count }}</td>
             <td>{{ object.unread_entries_count }}</td>
+            <td>{{ object.updated }}</td>
             <td>
               <div class="btn-group">
                 <a class="btn btn-default btn-sm"

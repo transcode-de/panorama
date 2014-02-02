@@ -1,12 +1,14 @@
 from braces.views import LoginRequiredMixin
-
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.utils.translation import ugettext as _
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, RedirectView, View
+from django.views.generic.detail import SingleObjectMixin
 from privatdash.views import ActiveNavMixin
 
 from .forms import RSSSourceForm, RSSCategoryForm
 from .models import RSSSource, RSSCategory, RSSEntry
+
 
 
 class RSSReaderBaseView(LoginRequiredMixin, ActiveNavMixin):
@@ -48,11 +50,38 @@ class RSSCategoryBaseView(RSSReaderEditBaseView):
 class RSSReaderView(RSSReaderDisplayBaseView, ListView):
     template_name = 'rss_reader/rss_reader_view.html'
     model = RSSEntry
+    category = None
+    source = None
 
     def get_context_data(self, *args, **kwargs):
         context = super(RSSReaderView, self).get_context_data(*args, **kwargs)
         context['categories'] = RSSCategory.objects.filter(user=self.request.user)
+        context['sources'] = RSSSource.objects.filter(user=self.request.user)
+        if self.category:
+            context['category_active'] = True
+            context['heading'] = '%(category)s: %(category_title)s' % {
+                'category': _(u'Category'), 'category_title': self.category.title
+            }
+        elif self.source:
+            context['source_active'] = True
+            context['heading'] = '%(source)s: %(source_title)s' % {
+                'source': _(u'Source'), 'source_title': self.source.title
+            }
+        else:
+            context['all_active'] = True
+            context['heading'] = _(u'all Entries')
         return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(RSSReaderView, self).get_queryset(*args, **kwargs).filter(
+            rss_source__user=self.request.user)
+        if 'category' in self.request.GET:
+            self.category = RSSCategory.objects.get(pk=self.request.GET.get('category'))
+            qs = qs.filter(rss_source__categories=self.category.pk)
+        elif 'source' in self.request.GET:
+            self.source = RSSSource.objects.get(pk=self.request.GET.get('source'))
+            qs = qs.filter(rss_source=self.source.pk)
+        return qs
 
 
 class RSSSourceListView(RSSSourceBaseView, ListView):
@@ -119,3 +148,30 @@ class RSSCategoryUpdateView(RSSCategoryModelView, UpdateView):
 
 class RSSCategoryDeleteView(RSSCategoryModelView, DeleteView):
     """ DeleteView for RSSCategory Objects. """
+
+
+class RSSEntryMarkReadView(RSSReaderBaseView, SingleObjectMixin, View):
+    """ Mark entry as read. """
+    model = RSSEntry
+
+    def get_object(self):
+        qs = self.get_queryset()
+        pk = self.kwargs.get(self.pk_url_kwarg, None)
+        if pk is not None:
+            qs = qs.filter(pk=pk)
+        else:
+            raise AttributeError("RSSEntryMarkReadView must be called with "
+                             "either an object pk or a slug.")
+        qs = qs.filter(rss_source__user=self.request.user)
+        try:
+            obj = qs.get()
+        except self.model.ObjectDoesNotExist:
+            raise Http404(_("No %(verbose_name)s found matching the query") %
+                        {'verbose_name': qs.model._meta.verbose_name})
+        return obj
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_new = False
+        self.object.save()
+        return HttpResponse()

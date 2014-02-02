@@ -72,7 +72,7 @@ body {
     -webkit-transition: width 0.2s;
     -moz-transition: width 0.2s;
     -o-transition: width 0.2s;
-    z-index: 999;
+    z-index: 9999;
 }
 
 .sidenav:hover {
@@ -348,10 +348,37 @@ body {
     margin-top: 1em;
 }
 
+.bottom-space {
+    margin-bottom: 1em;
+}
+
 .no-underline {
     border-bottom: 0px;
 }
 
 .text-pull-right {
     text-align: right;
+}
+
+.rss_nav {
+    margin-top: 1em;
+}
+
+.rss_nav .navbar-nav a {
+    color: #777777!important;
+}
+
+.rss_nav .navbar-nav a:hover {
+    color: #333333!important;
+}
+
+.reader_entry_title {
+    margin-top: 1.5em;
+}
+
+.reader_entry_title a, .reader_entry_title a:hover {
+    font-size: 120%;
+    color: #333333;
+    font-weight: bold;
+    text-decoration: none;
 }
