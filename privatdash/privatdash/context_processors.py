@@ -1,4 +1,6 @@
-from django.conf import settings
+from .signals import side_navigation
+
 
 def sidenav(request):
-    return {'sidenav_elements': settings.NAV_INCLUDE_TEMPLATES}
+    sidenav_elements = [nav_element for func, nav_element in side_navigation.send(sender='get_sidenavs')]
+    return {'sidenav_elements': sidenav_elements}

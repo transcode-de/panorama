@@ -121,7 +121,3 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-
-NAV_INCLUDE_TEMPLATES = [
-    'rss_reader/nav_obj.html'
-]

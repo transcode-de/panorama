@@ -77,7 +77,10 @@
                     <a href="{% url 'dashboard' %}" class="app-title">{% trans 'Dashboard' %}</a>
                 </li>
                 {% for sidenav_element in sidenav_elements %}
-                    {% include sidenav_element %}
+                <li>
+                    <i class="{{ sidenav_element.css_classes }} {% if sidenav_active == sidenav_element.active_name %}active{% endif %}"></i>
+                    <a href="{{ sidenav_element.url }}" class="app-title">{{ sidenav_element.title}}</a>
+                </li>
                 {% endfor %}
             </ul>
         </nav>
