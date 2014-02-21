@@ -1,9 +1,9 @@
 import feedparser
 from datetime import datetime
 
-from django.db import models
 from django.contrib.auth import get_user_model
-
+from django.db import models
+from django.template import loader, Context
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
@@ -89,20 +89,33 @@ class RSSEntry(models.Model):
 
 
 class RSSWidget(models.Model):
-    ALL_SOURCES_RSS_WIDGET = 0
-    SINGLE_SOURCE_RSS_WIDGET = 1
-    MULTI_SOURCE_RSS_WIDGET = 2
-    CATEGORY_RSS_WIDGET = 3
-    RSS_WIDGET_TYPE = (
-        (ALL_SOURCES_RSS_WIDGET, _('All Sources Widget')),
-        (MULTI_SOURCE_RSS_WIDGET, _('Selected Sources Widget')),
-        (CATEGORY_RSS_WIDGET, _('Category Widget')),
-    )
+    TEMPLATE_NAME = 'rss_reader/widget.html'
+    ICON_CLASS = 'fa fa-rss'
 
-    sources = models.ManyToManyField(RSSSource, related_name='sources')
-    categories = models.ManyToManyField(RSSCategory)
-    widget_type = models.SmallIntegerField(verbose_name=_('RSS Display Type'), choices=RSS_WIDGET_TYPE)
+    title = models.CharField(max_length=200, verbose_name=_('Title'))
+    sources = models.ManyToManyField(RSSSource, related_name='sources', blank=True)
+    categories = models.ManyToManyField(RSSCategory, blank=True)
+    only_new = models.BooleanField(verbose_name=_('Show only new entries'))
+    num_of_entries = models.IntegerField(verbose_name=_('How many entries should be shown?'),
+        default=3)
 
     class Meta:
         verbose_name = _('RSS Widget')
         verbose_name_plural = _('RSS Widgets')
+
+    def render(self, user):
+        entries = RSSEntry.objects.filter(rss_source__user=user)
+        categories = self.categories.all()
+        sources = self.sources.all()
+        if categories:
+            entries = entries.filter(rss_source__categories__in=categories)
+        if sources:
+            entries = entries.filter(rss_source__in=sources)
+        if self.only_new:
+            entries = entries.filter(is_new=self.only_new)
+        t = loader.get_template(self.TEMPLATE_NAME)
+        c = Context({
+            'object': self,
+            'entries': entries[:self.num_of_entries]
+        })
+        return t.render(c)

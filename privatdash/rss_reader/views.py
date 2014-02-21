@@ -1,13 +1,14 @@
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, JSONResponseMixin, CsrfExemptMixin
 from django.core.urlresolvers import reverse
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse
+from django.template import loader, Context
 from django.utils.translation import ugettext as _
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, RedirectView, View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 from django.views.generic.detail import SingleObjectMixin
-from privatdash.views import ActiveNavMixin
+from core.views import ActiveNavMixin
 
-from .forms import RSSSourceForm, RSSCategoryForm
-from .models import RSSSource, RSSCategory, RSSEntry
+from .forms import RSSSourceForm, RSSCategoryForm, RSSWidgetForm
+from .models import RSSSource, RSSCategory, RSSEntry, RSSWidget
 
 
 
@@ -175,3 +176,38 @@ class RSSEntryMarkReadView(RSSReaderBaseView, SingleObjectMixin, View):
         self.object.is_new = False
         self.object.save()
         return HttpResponse()
+
+
+class RSSWidgetBaseView(LoginRequiredMixin, ActiveNavMixin):
+    form_class = RSSWidgetForm
+    model = RSSWidget
+    sidenav_active = 'dashboard'
+    template_name = 'privatdash/widget_form.html'
+
+    def get_success_url(self):
+        return reverse('dashboard')
+
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super(RSSWidgetBaseView, self).get_form_kwargs(*args, **kwargs)
+        form_kwargs['user'] = self.request.user
+        return form_kwargs
+
+
+class RSSWidgetCreateView(CsrfExemptMixin, RSSWidgetBaseView, JSONResponseMixin, CreateView):
+    """ Create View for RSSWidget objects. """
+
+    def render_to_response(self, context, **response_kwargs):
+        t = loader.get_template(self.template_name)
+        c = Context(context)
+        json = {'html': t.render(c)}
+        return self.render_json_response(json)
+
+    def form_valid(self, form):
+        """
+        If the form is valid, redirect to the supplied URL.
+        """
+        super(RSSWidgetCreateView, self).form_valid(form)
+        return self.render_json_response({
+            'location': reverse('dashboard'),
+            'html': '<h2>Success! The page will be immediately reloaded...</h2>'
+        })

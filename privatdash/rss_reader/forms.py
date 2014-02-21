@@ -1,13 +1,15 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Submit
+from crispy_forms.layout import Layout, Field, Submit, HTML
 
 from django import forms
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from privatdash.layout import Cancel, Row, Div
+from core.layout import Cancel, Row, Div
 
-from .models import RSSSource, RSSCategory
+from core.models import Widget
+from .models import RSSSource, RSSCategory, RSSWidget
+
 
 class RSSSourceForm(forms.ModelForm):
     """ Form to create or update a new RSSSource. """
@@ -65,3 +67,42 @@ class RSSCategoryForm(forms.ModelForm):
 
     class Meta:
         model = RSSCategory
+
+
+class RSSWidgetForm(forms.ModelForm):
+    """ Form to create a RSS Widget. """
+
+    def __init__(self, user=None, *args, **kwargs):
+        super(RSSWidgetForm, self).__init__(*args, **kwargs)
+        self.user = user
+        if self.user:
+            self.fields['sources'].queryset = RSSSource.objects.filter(user=self.user)
+            self.fields['categories'].queryset = RSSCategory.objects.filter(user=self.user)
+        self.fields['sources'].help_text = _('You can choose multiple entries by holding ctrl. '
+            'If you leave this empty, all sources will be shown.')
+        self.fields['categories'].help_text = _('You can choose multiple entries by holding '
+            'ctrl. If you leave this empty, all categories will be shown.')
+        self.helper = FormHelper()
+        self.helper.form_action = reverse('rss_reader_rsswidget_create_view')
+        self.helper.form_class = 'ajax'
+        self.helper.form_id = 'widget-add-form'
+        self.helper.form_method = 'post'
+        self.helper.attrs['data-replace'] = '#widget-add-form'
+        self.helper.layout = Layout(
+                Field('title'),
+                Field('only_new'),
+                Field('num_of_entries'),
+                Field('sources'),
+                Field('categories'),
+                HTML('{% load i18n %}<button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>'),
+                Submit('save', _('Add'), wrapper_class="btn btn-primary")
+        )
+
+    def save(self, *args, **kwargs):
+        instance = super(RSSWidgetForm, self).save(*args, **kwargs)
+        Widget.objects.create(user=self.user, widget_type=instance)
+        return instance
+
+    class Meta:
+        model = RSSWidget
+
