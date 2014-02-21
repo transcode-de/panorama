@@ -1,4 +1,4 @@
-var dashboard_cookieName = "panorama-dashboard";
+var dashboard_cookieName = "privatdash";
 
 function saveOrder() {
     cookieContent = {};
