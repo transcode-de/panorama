@@ -6,7 +6,7 @@
       <a class="btn btn-default btn-xs collapse-btn ajax"
          title="reload content"
          data-replace='#widget-{{ object.pk }}'
-         href="{# url 'refresh-widget' object.pk #}">
+         href="{% url 'widget_reload' pk=widget_pk %}">
         <i class="fa fa-refresh"></i>
       </a>
       <button type="button"

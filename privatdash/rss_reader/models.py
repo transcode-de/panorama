@@ -103,7 +103,7 @@ class RSSWidget(models.Model):
         verbose_name = _('RSS Widget')
         verbose_name_plural = _('RSS Widgets')
 
-    def render(self, user):
+    def render(self, user, widget_pk):
         entries = RSSEntry.objects.filter(rss_source__user=user)
         categories = self.categories.all()
         sources = self.sources.all()
@@ -116,6 +116,7 @@ class RSSWidget(models.Model):
         t = loader.get_template(self.TEMPLATE_NAME)
         c = Context({
             'object': self,
-            'entries': entries[:self.num_of_entries]
+            'entries': entries[:self.num_of_entries],
+            'widget_pk': widget_pk,
         })
         return t.render(c)

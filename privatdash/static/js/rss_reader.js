@@ -1,5 +1,5 @@
-$(document).ready(function() {
-	$('.mark-read-link').on('click', function() {
+function mark_as_read() {
+    $('.mark-read-link').on('click', function() {
 		var self = $(this);
 		$.ajax({
 			'url': self.data('url'),
@@ -10,4 +10,9 @@ $(document).ready(function() {
 			}
 		});
 	});
+}
+
+$(document).ready(function() {
+	mark_as_read();
+	$(document).on("eldarion-ajax:success", mark_as_read);
 });

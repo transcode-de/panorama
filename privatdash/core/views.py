@@ -1,10 +1,12 @@
 from braces.views import LoginRequiredMixin, JSONResponseMixin
 
 from django.template import loader, Context
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, View
 
-from .signals import widget_types, extra_js
+
 from .models import Widget
+from .signals import widget_types, extra_js
+from .templatetags.widgets_extra import render_widget
 
 
 class ActiveNavMixin(object):
@@ -56,3 +58,11 @@ class WidgetCreateView(LoginRequiredMixin, ActiveNavMixin, JSONResponseMixin, Fo
         kwargs = super(WidgetCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+
+class WidgetReloadView(LoginRequiredMixin, JSONResponseMixin, View):
+
+    def get(self, *args, **kwargs):
+        user_pk = self.request.user.pk
+        widget_pk = self.kwargs.get('pk')
+        return self.render_json_response({'html': render_widget(user_pk, widget_pk)})
