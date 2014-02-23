@@ -3,6 +3,13 @@
 {% load i18n %}
 {% load widgets_extra %}
 
+{% block static %}
+{{ block.super }}
+{% for extra_style in extra_styles %}
+<link rel="stylesheet" href="{% static extra_style %}"></link>
+{% endfor %}
+{% endblock %}
+
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript" src="{% static 'js/vendor/eldarion-ajax.min.js' %}"></script>
