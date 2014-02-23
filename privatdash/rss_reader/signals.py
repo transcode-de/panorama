@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
-from core.signals import side_navigation, widget_types, extra_js
+from core.signals import side_navigation, widget_types, extra_js, extra_css
 
 from .models import RSSWidget
 from .forms import RSSWidgetForm
@@ -28,6 +28,12 @@ def widget_types_rss_reader(sender, **kwargs):
         'form': RSSWidgetForm
     }
 
+
 @receiver(extra_js, dispatch_uid="extra_js_rss_widgets")
 def extra_js_rss_widgets(sender, **kwargs):
-    return 'js/rss_reader.js'
+    return ['js/rss_reader.js']
+
+
+@receiver(extra_css, dispatch_uid="extra_css_rss_widgets")
+def extra_css_rss_widgets(sender, **kwargs):
+    return ['css/rss_widget.css']

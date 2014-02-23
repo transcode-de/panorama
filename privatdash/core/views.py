@@ -5,7 +5,7 @@ from django.views.generic import ListView, FormView, View
 
 
 from .models import Widget
-from .signals import widget_types, extra_js
+from .signals import widget_types, extra_js, extra_css
 from .templatetags.widgets_extra import render_widget
 
 
@@ -29,8 +29,20 @@ class Dashboard(LoginRequiredMixin, ActiveNavMixin, ListView):
         context = super(Dashboard, self).get_context_data(*args, **kwargs)
         context['widget_types'] = [widget_type for func, widget_type in widget_types.send(
             sender='get_wiget_types')]
-        context['extra_scripts'] = [script for func, script in extra_js.send(
-            sender='get_extra_js')]
+
+        extra_scripts = []
+        all_extra_scripts = [scripts for func, scripts in extra_js.send(sender='get_extra_js')]
+        for app_scripts in all_extra_scripts:
+            for script in app_scripts:
+                extra_scripts.append(script)
+        context['extra_scripts'] = extra_scripts
+
+        extra_styles = []
+        all_extra_styles = [styles for func, styles in extra_css.send(sender='get_extra_css')]
+        for app_style in all_extra_styles:
+            for style in app_style:
+                extra_styles.append(style)
+        context['extra_styles'] = extra_styles
         return context
 
 
