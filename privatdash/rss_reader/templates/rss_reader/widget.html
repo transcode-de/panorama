@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="widget" id="widget-{{ object.pk }}">
+<div class="widget {{ object.WIDGET_CLASS }}" id="widget-{{ object.pk }}">
   <div class="widget-header background-img">
     <i class="{{ object.ICON_CLASS }}"></i>
     <div class="collapsebutton btn-group pull-right" data-toggle="buttons-checkbox">
