@@ -41,6 +41,14 @@ function defaultOrder() {
 }
 
 $(document).ready(function () {
+    $(document).on("eldarion-ajax:success", function(){
+        $('.widget-content').niceScroll();
+    });
+    $('.column').on('sortstop', function(){
+        $('.widget-content').getNiceScroll().resize();
+    });
+
+
     $('.dashboard-tooltip').tooltip({
         'placement': 'bottom', 'container': 'body'
     });
