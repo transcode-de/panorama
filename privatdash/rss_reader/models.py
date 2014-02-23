@@ -1,13 +1,14 @@
 import feedparser
-from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.template import loader, Context
 from django.utils.translation import ugettext_lazy as _
-from django.utils.timezone import now
-
+from django.utils import timezone
 from time import mktime
+
+import pytz
+utc=pytz.UTC
 
 
 class RSSCategory(models.Model):
@@ -50,7 +51,7 @@ class RSSSource(models.Model):
         return self.entries.filter(is_new=True).count()
 
     def save(self, *args, **kwargs):
-        self.updated = now()
+        self.updated = timezone.now()
         super(RSSSource, self).save(*args, **kwargs)
         self.update_feed_entries()
 
@@ -59,9 +60,12 @@ class RSSSource(models.Model):
         if feed.bozo == 0:
             for entry in feed.entries:
                 if not self.entries.filter(guid=entry.id).count():
+                    published_unaware = timezone.datetime.fromtimestamp(
+                        mktime(entry.updated_parsed))
+                    published = utc.localize(published_unaware)
                     kwargs = dict(title=entry.title, description=entry.summary,
                         link=entry.link, is_new=True, guid=entry.id,
-                        publishing_date=datetime.fromtimestamp(mktime(entry.published_parsed)))
+                        publishing_date=published)
                     if 'author' in entry.keys():
                         kwargs['author'] = entry.get('author')
                     self.entries.create(**kwargs)
@@ -91,6 +95,7 @@ class RSSEntry(models.Model):
 class RSSWidget(models.Model):
     TEMPLATE_NAME = 'rss_reader/widget.html'
     ICON_CLASS = 'fa fa-rss'
+    WIDGET_CLASS = 'rss-widget'
 
     title = models.CharField(max_length=200, verbose_name=_('Title'))
     sources = models.ManyToManyField(RSSSource, related_name='sources', blank=True)
