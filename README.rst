@@ -27,9 +27,8 @@ You just have to make sure to return a dictionary with elements:
 * title: the text shown in the sidenav
 * url: the url, the link of the sidenav element should open
 
-Here is the example from the rss_reader app:
+Here is the example from the rss_reader app::
 
-::
     from core.signals import side_navigation
 
     @receiver(side_navigation, dispatch_uid="side_navigation_rss_reader")
