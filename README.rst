@@ -29,42 +29,42 @@ You just have to make sure to return a dictionary with elements:
 
 Here is the example from the rss_reader app:
 
-    :::Python
-        from core.signals import side_navigation
+:::python
+    from core.signals import side_navigation
 
-        @receiver(side_navigation, dispatch_uid="side_navigation_rss_reader")
-        def side_navigation_rss_reader(sender, **kwargs):
-            return {
-                'active_name': 'rss_reader',
-                'icon_classes': 'fa fa-rss',
-                'title': _('RSS Reader'),
-                'url': reverse('rss_reader_view'),
-            }
+    @receiver(side_navigation, dispatch_uid="side_navigation_rss_reader")
+    def side_navigation_rss_reader(sender, **kwargs):
+        return {
+            'active_name': 'rss_reader',
+            'icon_classes': 'fa fa-rss',
+            'title': _('RSS Reader'),
+            'url': reverse('rss_reader_view'),
+        }
 
 In the sidenav, it will be rendered like this:
 
-    :::
+:::
 
-        {% for sidenav_element in sidenav_elements %}
-        <li>
-            <i class="{{ sidenav_element.icon_classes }} {% if sidenav_active == sidenav_element.active_name %}active{% endif %}"></i>
-            <a href="{{ sidenav_element.url }}" class="app-title">{{ sidenav_element.title}}</a>
-        </li>
-        {% endfor %}
+    {% for sidenav_element in sidenav_elements %}
+    <li>
+        <i class="{{ sidenav_element.icon_classes }} {% if sidenav_active == sidenav_element.active_name %}active{% endif %}"></i>
+        <a href="{{ sidenav_element.url }}" class="app-title">{{ sidenav_element.title}}</a>
+    </li>
+    {% endfor %}
 
 If you want it to be the active sidenav element, you can use the `ActiveNavMixin`. Just let you view inherit from it and set the `sidenav_active` variable. Here is a short example out of the rss_reader app:
 
-    :::Python
-        from core.views import ActiveNavMixin
+:::python
+    from core.views import ActiveNavMixin
 
 
-        class RSSReaderBaseView(LoginRequiredMixin, ActiveNavMixin):
-            sidenav_active = 'rss_reader'
+    class RSSReaderBaseView(LoginRequiredMixin, ActiveNavMixin):
+        sidenav_active = 'rss_reader'
 
 
-        class RSSReaderDisplayBaseView(RSSReaderBaseView):
-            [...]
+    class RSSReaderDisplayBaseView(RSSReaderBaseView):
+        [...]
 
 
-	    class RSSReaderView(RSSReaderDisplayBaseView, ListView):
-            [...]
+    class RSSReaderView(RSSReaderDisplayBaseView, ListView):
+        [...]
