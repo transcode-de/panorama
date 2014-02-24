@@ -29,7 +29,7 @@ You just have to make sure to return a dictionary with elements:
 
 Here is the example from the rss_reader app:
 
-:::python
+::
     from core.signals import side_navigation
 
     @receiver(side_navigation, dispatch_uid="side_navigation_rss_reader")
@@ -43,7 +43,7 @@ Here is the example from the rss_reader app:
 
 In the sidenav, it will be rendered like this:
 
-:::
+::
 
     {% for sidenav_element in sidenav_elements %}
     <li>
@@ -54,7 +54,7 @@ In the sidenav, it will be rendered like this:
 
 If you want it to be the active sidenav element, you can use the `ActiveNavMixin`. Just let you view inherit from it and set the `sidenav_active` variable. Here is a short example out of the rss_reader app:
 
-:::python
+::
     from core.views import ActiveNavMixin
 
 
