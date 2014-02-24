@@ -1,7 +1,13 @@
-privatdash
+panorama
 ==========
 
-privatdash is a open source dashboard applikation. It allows you to create a dashboard with several widgets about the information you want to see at the first view. It has also kind of a plugin system to create your own widgets.
+panorama is a open source dashboard applikation. It allows you to create a dashboard with several widgets about the information you want to see at the first view. It has also kind of a plugin system to create your own widgets.
+
+setup
+=====
+
+testing
+=======
 
 writing your own widgets
 ========================

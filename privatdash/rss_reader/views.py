@@ -182,7 +182,7 @@ class RSSWidgetBaseView(LoginRequiredMixin, ActiveNavMixin):
     form_class = RSSWidgetForm
     model = RSSWidget
     sidenav_active = 'dashboard'
-    template_name = 'privatdash/widget_form.html'
+    template_name = 'panorama/widget_form.html'
 
     def get_success_url(self):
         return reverse('dashboard')

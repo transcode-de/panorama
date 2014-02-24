@@ -19,7 +19,7 @@ class ActiveNavMixin(object):
 
 
 class Dashboard(LoginRequiredMixin, ActiveNavMixin, ListView):
-    template_name = 'privatdash/dashboard.html'
+    template_name = 'panorama/dashboard.html'
     model = Widget
 
     def get_query_set(self):
@@ -47,7 +47,7 @@ class Dashboard(LoginRequiredMixin, ActiveNavMixin, ListView):
 
 
 class WidgetCreateView(LoginRequiredMixin, ActiveNavMixin, JSONResponseMixin, FormView):
-    template_name = 'privatdash/widget_form.html'
+    template_name = 'panorama/widget_form.html'
 
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
