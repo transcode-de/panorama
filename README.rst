@@ -40,9 +40,7 @@ Here is the example from the rss_reader app::
             'url': reverse('rss_reader_view'),
         }
 
-In the sidenav, it will be rendered like this:
-
-::
+In the sidenav, it will be rendered like this::
 
     {% for sidenav_element in sidenav_elements %}
     <li>
@@ -51,9 +49,8 @@ In the sidenav, it will be rendered like this:
     </li>
     {% endfor %}
 
-If you want it to be the active sidenav element, you can use the `ActiveNavMixin`. Just let you view inherit from it and set the `sidenav_active` variable. Here is a short example out of the rss_reader app:
+If you want it to be the active sidenav element, you can use the `ActiveNavMixin`. Just let you view inherit from it and set the `sidenav_active` variable. Here is a short example out of the rss_reader app::
 
-::
     from core.views import ActiveNavMixin
 
 
