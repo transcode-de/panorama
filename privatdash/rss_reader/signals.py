@@ -13,7 +13,7 @@ from .forms import RSSWidgetForm
 def side_navigation_rss_reader(sender, **kwargs):
     return {
         'active_name': 'rss_reader',
-        'css_classes': 'fa fa-rss',
+        'icon_classes': 'fa fa-rss',
         'title': _('RSS Reader'),
         'url': reverse('rss_reader_view'),
     }
