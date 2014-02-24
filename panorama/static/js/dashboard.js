@@ -47,6 +47,7 @@ $(document).ready(function () {
     $('.column').on('sortstop', function(){
         $('.widget-content').getNiceScroll().resize();
     });
+    $('.widget-content').niceScroll();
 
 
     $('.dashboard-tooltip').tooltip({
