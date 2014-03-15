@@ -4,8 +4,8 @@ from django.dispatch import receiver
 
 from core.signals import widget_types, extra_js
 
-from .models import WeatherWidget
-from .forms import WeatherWidgetForm
+from .models import WeatherWidget, TextWidget
+from .forms import WeatherWidgetForm, TextWidgetForm
 
 
 @receiver(widget_types, dispatch_uid="widget_types_weather_widget")
@@ -15,6 +15,16 @@ def widget_types_weather_widget(sender, **kwargs):
         'pk': ct.pk,
         'name': 'Weather Widget',
         'form': WeatherWidgetForm
+    }
+
+
+@receiver(widget_types, dispatch_uid="widget_types_text_widget")
+def widget_types_text_widget(sender, **kwargs):
+    ct = ContentType.objects.get_for_model(TextWidget)
+    return {
+        'pk': ct.pk,
+        'name': 'Static Text Widget',
+        'form': TextWidgetForm
     }
 
 

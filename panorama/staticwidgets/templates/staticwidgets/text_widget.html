@@ -1,0 +1,12 @@
+{% extends 'panorama/base_widget.html' %}
+{% load i18n %}
+
+{% block widget_content %}
+  <div class="widget-content collapse in {{ object.WIDGET_CLASS }}-content"
+       id="widgetcontent-{{ object.WIDGET_CLASS }}-{{ object.pk }}"
+       data-weatherlocation='{{ object.location }}'>
+
+    {{ object.text }}
+
+  </div>
+{% endblock %}
