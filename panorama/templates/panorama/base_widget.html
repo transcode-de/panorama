@@ -1,14 +1,16 @@
 {% load i18n %}
-<div class="widget {{ object.WIDGET_CLASS }}" id="widget-{{ object.pk }}">
+<div class="widget {{ object.WIDGET_CLASS }}" id="widget-{{ widget_pk }}">
   <div class="widget-header background-img">
     <i class="{{ object.ICON_CLASS }}"></i>
     <div class="collapsebutton btn-group pull-right" data-toggle="buttons-checkbox">
+      {% if object.IS_REFRESHABLE %}
       <a class="btn btn-default btn-xs collapse-btn ajax"
          title="reload content"
-         data-replace='#widget-{{ object.pk }}'
+         data-replace='#widget-{{ widget_pk }}'
          href="{% url 'widget_reload' pk=widget_pk %}">
         <i class="fa fa-refresh"></i>
       </a>
+      {% endif %}
       <button type="button"
               class="btn btn-default btn-xs"
               title="edit widget"

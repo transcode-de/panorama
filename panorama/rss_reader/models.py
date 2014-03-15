@@ -96,6 +96,7 @@ class RSSWidget(models.Model):
     TEMPLATE_NAME = 'rss_reader/widget.html'
     ICON_CLASS = 'fa fa-rss'
     WIDGET_CLASS = 'rss-widget'
+    IS_REFRESHABLE = True
 
     title = models.CharField(max_length=200, verbose_name=_('Title'))
     sources = models.ManyToManyField(RSSSource, related_name='sources', blank=True)
