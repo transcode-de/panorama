@@ -19,5 +19,5 @@ def widget_types_weather_widget(sender, **kwargs):
 
 
 @receiver(extra_js, dispatch_uid="extra_js_weather_widgets")
-def extra_js_rss_widgets(sender, **kwargs):
+def extra_js_weather_widgets(sender, **kwargs):
     return ['js/vendor/openWeather.min.js', 'js/weather_widget.js']
