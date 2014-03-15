@@ -99,11 +99,6 @@ class RSSWidgetForm(WidgetBaseForm):
                 Submit('save', _('Add'), wrapper_class="btn btn-primary")
         )
 
-    def save(self, *args, **kwargs):
-        instance = super(RSSWidgetForm, self).save(*args, **kwargs)
-        Widget.objects.create(user=self.user, widget_type=instance)
-        return instance
-
     class Meta:
         model = RSSWidget
 
