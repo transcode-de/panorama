@@ -42,7 +42,8 @@ INSTALLED_APPS = (
 
     # own apps
     'core',
-    'rss_reader'
+    'staticwidgets',
+    'rss_reader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -122,3 +123,7 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+if DEBUG:
+    INSTALLED_APPS += ('devserver',)
+    DEVSERVER_ARGS = ['--werkzeug']
