@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^rss_reader/', include('rss_reader.urls')),
+    url(r'^staticwidgets/', include('staticwidgets.urls')),
     url(r'^accounts/', include('panorama.registration_urls')),
     url(r'^', include('core.urls')),
 )

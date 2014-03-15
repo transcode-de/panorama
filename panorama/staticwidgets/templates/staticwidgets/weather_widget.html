@@ -1,0 +1,27 @@
+{% extends 'panorama/base_widget.html' %}
+{% load i18n %}
+
+{% block widget_content %}
+  <div class="widget-content collapse in {{ object.WIDGET_CLASS }}-content"
+       id="widgetcontent-{{ object.WIDGET_CLASS }}-{{ object.pk }}"
+       data-weatherlocation='{{ object.location }}'>
+      <div class="weather-icon-box">
+      <img class="weather-icon" alt="Weather Icon" />
+    </div>
+
+    <div class="weather-info-box">
+    <h2 class="weather-place"></h2>
+    <hr />
+    <strong>Temperature:</strong> <span class="weather-temperature"></span><br />
+    <strong>Description:</strong> <span class="weather-description"></span><br />
+    <strong>Humidity:</strong> <span class="weather-humidity"></span><br />
+    <strong>Wind speed:</strong> <span class="weather-wind-speed"></span><br />
+    <strong>Sunrise:</strong> <span class="weather-sunrise"></span><br />
+    <strong>Sunset:</strong> <span class="weather-sunset"></span>
+
+    </div>
+    <div class="icon-conrtibution">
+      Weather Icons made by <a href="http://merlinthered.deviantart.com/art/plain-weather-icons-157162192">MerlinTheRed</a>
+    </div>
+  </div>
+{% endblock %}
