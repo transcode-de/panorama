@@ -7,7 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from core.layout import Cancel, Row, Div
 
-from core.models import Widget
+from core.forms import WidgetBaseForm
+
 from .models import RSSSource, RSSCategory, RSSWidget
 
 
@@ -69,7 +70,7 @@ class RSSCategoryForm(forms.ModelForm):
         model = RSSCategory
 
 
-class RSSWidgetForm(forms.ModelForm):
+class RSSWidgetForm(WidgetBaseForm):
     """ Form to create a RSS Widget. """
 
     def __init__(self, user=None, *args, **kwargs):

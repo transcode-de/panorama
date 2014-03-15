@@ -1,45 +1,8 @@
+{% extends 'panorama/base_widget.html' %}
 {% load i18n %}
-<div class="widget {{ object.WIDGET_CLASS }}" id="widget-{{ object.pk }}">
-  <div class="widget-header background-img">
-    <i class="{{ object.ICON_CLASS }}"></i>
-    <div class="collapsebutton btn-group pull-right" data-toggle="buttons-checkbox">
-      <a class="btn btn-default btn-xs collapse-btn ajax"
-         title="reload content"
-         data-replace='#widget-{{ object.pk }}'
-         href="{% url 'widget_reload' pk=widget_pk %}">
-        <i class="fa fa-refresh"></i>
-      </a>
-      <button type="button"
-              class="btn btn-default btn-xs"
-              title="edit widget"
-              data-toggle="dropdown">
-        <i class="fa fa-cogs"></i>
-      </button>
-      <ul class="dropdown-menu widget-edit-dropdown">
-        <li role="presentation">
-          <a role="menuitem" tabindex="-1" href="#">
-            <i class="fa fa-edit"></i> Edit
-          </a>
-        </li>
-        <li role="presentation">
-          <a role="menuitem" tabindex="-1" href="#">
-            <i class="fa fa-times"></i> Delete
-          </a>
-        </li>
-      </ul>
-      <button type="button"
-              class="btn btn-default btn-xs collapse-btn"
-              data-toggle="collapse"
-              data-target="#widgetcontent-rsswidget-{{ object.pk }}"
-              title="minimize widget">
-        _
-      </button>
-    </div>
-    {{ object.title }}
-  </div>
-
+  {% block widget_content %}
   <div class="widget-content collapse in"
-       id="widgetcontent-rsswidget-{{ object.pk }}">
+       id="widgetcontent-{{ object.WIDGET_CLASS }}-{{ object.pk }}">
     {% for entry in entries %}
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -83,4 +46,5 @@
     </div>
     {% endfor %}
   </div>
+  {% endblock %}
 </div>
