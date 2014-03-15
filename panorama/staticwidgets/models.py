@@ -1,7 +1,11 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.dispatch import receiver
 
 from django.template import loader, Context
 from django.utils.translation import ugettext_lazy as _
+
+from core.signals import widget_types, extra_js
 
 
 class WeatherWidget(models.Model):
@@ -44,3 +48,28 @@ class TextWidget(models.Model):
             'widget_pk': widget_pk
         })
         return t.render(c)
+
+
+@receiver(widget_types, dispatch_uid="widget_types_weather_widget")
+def widget_types_weather_widget(sender, **kwargs):
+    ct = ContentType.objects.get_for_model(WeatherWidget)
+    return {
+        'pk': ct.pk,
+        'name': 'Weather Widget',
+        'form': 'staticwidgets.forms.WeatherWidgetForm'
+    }
+
+
+@receiver(widget_types, dispatch_uid="widget_types_text_widget")
+def widget_types_text_widget(sender, **kwargs):
+    ct = ContentType.objects.get_for_model(TextWidget)
+    return {
+        'pk': ct.pk,
+        'name': 'Static Text Widget',
+        'form': 'staticwidgets.forms.TextWidgetForm'
+    }
+
+
+@receiver(extra_js, dispatch_uid="extra_js_weather_widgets")
+def extra_js_weather_widgets(sender, **kwargs):
+    return ['js/vendor/openWeather.min.js', 'js/weather_widget.js']

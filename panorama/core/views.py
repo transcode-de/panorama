@@ -1,13 +1,13 @@
 from braces.views import LoginRequiredMixin, JSONResponseMixin
 
 from django.template import loader, Context
+from django.utils.importlib import import_module
 from django.views.generic import ListView, FormView, View
 
 
 from .models import Widget
 from .signals import widget_types, extra_js, extra_css
 from .templatetags.widgets_extra import render_widget
-
 
 class ActiveNavMixin(object):
     sidenav_active = 'dashboard'
@@ -62,7 +62,8 @@ class WidgetCreateView(LoginRequiredMixin, ActiveNavMixin, JSONResponseMixin, Fo
         form = None
         for func, widget_type in widget_types.send(sender='get_wiget_types'):
             if widget_type['pk'] == int(pk):
-                form = widget_type['form']
+                form_module, form_name = widget_type['form'].rsplit('.', 1)
+                form = getattr(import_module(form_module), form_name)
                 break
         return form
 

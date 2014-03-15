@@ -42,8 +42,9 @@ INSTALLED_APPS = (
 
     # own apps
     'core',
-    'staticwidgets',
     'rss_reader',
+    'staticwidgets',
+
 )
 
 MIDDLEWARE_CLASSES = (

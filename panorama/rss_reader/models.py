@@ -1,7 +1,10 @@
 import feedparser
 
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.dispatch import receiver
 from django.template import loader, Context
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -9,6 +12,8 @@ from time import mktime
 
 import pytz
 utc=pytz.UTC
+
+from core.signals import side_navigation, widget_types, extra_js, extra_css
 
 
 class RSSCategory(models.Model):
@@ -126,3 +131,33 @@ class RSSWidget(models.Model):
             'widget_pk': widget_pk,
         })
         return t.render(c)
+
+
+@receiver(side_navigation, dispatch_uid="side_navigation_rss_reader")
+def side_navigation_rss_reader(sender, **kwargs):
+    return {
+        'active_name': 'rss_reader',
+        'icon_classes': 'fa fa-rss',
+        'title': _('RSS Reader'),
+        'url': reverse('rss_reader_view'),
+    }
+
+
+@receiver(widget_types, dispatch_uid="widget_types_rss_reader")
+def widget_types_rss_reader(sender, **kwargs):
+    ct = ContentType.objects.get_for_model(RSSWidget)
+    return {
+        'pk': ct.pk,
+        'name': 'RSS Widget',
+        'form': 'rss_reader.forms.RSSWidgetForm'
+    }
+
+
+@receiver(extra_js, dispatch_uid="extra_js_rss_widgets")
+def extra_js_rss_widgets(sender, **kwargs):
+    return ['js/rss_reader.js']
+
+
+@receiver(extra_css, dispatch_uid="extra_css_rss_widgets")
+def extra_css_rss_widgets(sender, **kwargs):
+    return ['css/rss_widget.css']
